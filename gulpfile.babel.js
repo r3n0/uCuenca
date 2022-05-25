@@ -7,7 +7,7 @@ import sourcemaps from 'gulp-sourcemaps'; // para generar el mapa de SASS en el 
 import imagemin from 'gulp-imagemin'; // para minimizar imágenes
 import del from 'del'; //para borrar carpetas y archivos
 import autoprefixer from 'gulp-autoprefixer'; // para poner prefijos en la versión de producción
-import webpackStream from 'webpack-stream'; // para empaquetar los archivos de js en uno solo
+import webpack from 'webpack-stream'; // para empaquetar los archivos de js en uno solo
 
 const sassComp = require('gulp-sass')(require('sass')); // es el compilador de SASS que no pude inicalizarse usando import porque requiere gulp-sass y sass
 
@@ -101,16 +101,26 @@ export const scripts = () => {
 	return gulp
 		.src(paths.scripts.src)
 		.pipe(
-			gulpIf(
-				PRODUCTION,
-				webpackStream(require('./webpack.config-prod.js'))
-			)
-		)
-		.pipe(
-			gulpIf(
-				!PRODUCTION,
-				webpackStream(require('./webpack.config-dev.js'))
-			)
+			webpack({
+				module: {
+					rules: [
+						{
+							test: /\.js$/,
+							use: {
+								loader: 'babel-loader',
+								options: {
+									presets: ['@babel/preset-env'], //or ['babel-preset-env']
+								},
+							},
+						},
+					],
+				},
+				output: {
+					filename: 'bundle.js',
+				},
+				devtool: !PRODUCTION ? 'inline-source-map' : false,
+				mode: PRODUCTION ? 'production' : 'development', //add this
+			})
 		)
 		.pipe(gulp.dest(paths.scripts.dest));
 };
