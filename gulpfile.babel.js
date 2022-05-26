@@ -8,6 +8,11 @@ import imagemin from 'gulp-imagemin'; // para minimizar imágenes
 import del from 'del'; //para borrar carpetas y archivos
 import autoprefixer from 'gulp-autoprefixer'; // para poner prefijos en la versión de producción
 import webpack from 'webpack-stream'; // para empaquetar los archivos de js en uno solo
+import named from 'vinyl-named';
+import browserSync from 'browser-sync';
+import zip from 'gulp-zip';
+
+const server = browserSync.create();
 
 const sassComp = require('gulp-sass')(require('sass')); // es el compilador de SASS que no pude inicalizarse usando import porque requiere gulp-sass y sass
 
@@ -24,7 +29,7 @@ const paths = {
 		dest: 'dist/assets/images',
 	},
 	scripts: {
-		src: 'src/assets/js/bundle.js',
+		src: ['src/assets/js/bundle.js', 'src/assets/js/admin.js'],
 		dest: 'dist/assets/js',
 	},
 	other: {
@@ -35,6 +40,37 @@ const paths = {
 		],
 		dest: 'dist/assets',
 	},
+	package: {
+		src: [
+			'**/*',
+			'!.vscode',
+			'!node_modules{,/**}',
+			'!vendor{,/**}',
+			'!packaged{,/**}',
+			'!src{,/**}',
+			'!.babelrc',
+			'!.gitignore',
+			'!.git',
+			'!gulpfile.babel.js',
+			'!package.json',
+			'!package-lock.json',
+			'composer.json',
+		],
+		dest: 'packaged',
+	},
+};
+
+export const serve = (done) => {
+	server.init({
+		proxy: 'https://ucuenca:8890/',
+		browser: 'firefox',
+	});
+	done();
+};
+
+export const reload = (done) => {
+	server.reload();
+	done();
 };
 
 // ------- esta tarea borra la carpeta dist
@@ -61,7 +97,8 @@ export const styles = () => {
 		)
 		.pipe(gulpIf(PRODUCTION, cleanCSS({ compatibility: 'ie8' })))
 		.pipe(gulpIf(!PRODUCTION, sourcemaps.write()))
-		.pipe(gulp.dest(paths.styles.dest));
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(server.stream());
 };
 
 /**
@@ -70,9 +107,10 @@ export const styles = () => {
  */
 export const watch = () => {
 	gulp.watch('src/assets/sass/**/*.sass', styles);
-	gulp.watch(paths.images.src, images);
-	gulp.watch(paths.scripts.src, scripts);
-	gulp.watch(paths.other.src, copy);
+	gulp.watch('src/assets/js/**/*.js', gulp.series(scripts, reload));
+	gulp.watch('**/*.php', reload);
+	gulp.watch(paths.images.src, gulp.series(images, reload));
+	gulp.watch(paths.other.src, gulp.series(copy, reload));
 };
 
 /**
@@ -100,6 +138,7 @@ export const copy = () => {
 export const scripts = () => {
 	return gulp
 		.src(paths.scripts.src)
+		.pipe(named())
 		.pipe(
 			webpack({
 				module: {
@@ -116,7 +155,7 @@ export const scripts = () => {
 					],
 				},
 				output: {
-					filename: 'bundle.js',
+					filename: '[name].js',
 				},
 				devtool: !PRODUCTION ? 'inline-source-map' : false,
 				mode: PRODUCTION ? 'production' : 'development', //add this
@@ -132,6 +171,7 @@ export const scripts = () => {
 export const dev = gulp.series(
 	clean,
 	gulp.parallel(styles, copy, images, scripts),
+	serve,
 	watch
 );
 
@@ -143,5 +183,12 @@ export const build = gulp.series(
 	clean,
 	gulp.parallel(styles, copy, images, scripts)
 );
+
+export const compress = () => {
+	return gulp
+		.src(paths.package.src)
+		.pipe(zip('UCuenca Theme.zip'))
+		.pipe(gulp.dest(paths.package.dest));
+};
 
 export default dev;
