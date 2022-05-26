@@ -6,7 +6,7 @@
  *
  * @category   Components
  * @package    WordPress
- * @subpackage Theme_Name_Here
+ * @subpackage _themename
  * @author     Your Name <yourname@example.com>
  * @license    https://www.gnu.org/licenses/gpl-3.0.txt GNU/GPLv3
  * @link       https://yoursite.com
@@ -25,18 +25,18 @@
 					<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?> </a>
 				</h2>
 				<div>
-					<?php ucuenca_post_meta(); ?>
+					<?php _themename_post_meta(); ?>
 				</div>
 				<p>
 					<?php the_content(); ?>
 				</p>
-				<?php ucuenca_read_more(); ?>
+				<?php _themename_read_more(); ?>
 			</div>
 		<?php endwhile; ?>
 	</div> <!-- post-container -->
 	<?php the_posts_pagination(); ?>
 <?php else : ?>
-	<?php esc_html_e( 'no se ha encontrado ningún post', 'ucuenca' ); ?>
+	<?php esc_html_e( 'no se ha encontrado ningún post', '_themename' ); ?>
 <?php endif; ?>
 
 <?php get_footer(); ?>

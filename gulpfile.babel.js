@@ -11,6 +11,8 @@ import webpack from 'webpack-stream'; // para empaquetar los archivos de js en u
 import named from 'vinyl-named';
 import browserSync from 'browser-sync';
 import zip from 'gulp-zip';
+import replace from 'gulp-replace';
+import info from './package.json';
 
 const server = browserSync.create();
 
@@ -54,7 +56,7 @@ const paths = {
 			'!gulpfile.babel.js',
 			'!package.json',
 			'!package-lock.json',
-			'composer.json',
+			'!composer.json',
 		],
 		dest: 'packaged',
 	},
@@ -167,7 +169,8 @@ export const scripts = () => {
 export const compress = () => {
 	return gulp
 		.src(paths.package.src)
-		.pipe(zip('UCuenca Theme.zip'))
+		.pipe(replace('_themename', info.name))
+		.pipe(zip(`${info.name}.zip`))
 		.pipe(gulp.dest(paths.package.dest));
 };
 

@@ -12,16 +12,16 @@
  *
  * @return void
  */
-function ucuenca_post_meta() {
+function _themename_post_meta() {
 	printf(
 		/* translators: %s es la fecha de la publicación */
-		esc_html__( 'Posteado en %s', 'ucuenca' ),
+		esc_html__( 'Posteado en %s', '_themename' ),
 		'<a href="' . esc_url( get_permalink() ) . '"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '">' . esc_html( get_the_date() ) . '</time></a>'
 	);
 
 	printf(
 		/* translators: %s es el nombre del autor */
-		esc_html__( ' por %s', 'ucuenca' ),
+		esc_html__( ' por %s', '_themename' ),
 		'<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a>'
 	);
 }
@@ -31,11 +31,11 @@ function ucuenca_post_meta() {
  *
  * @requires void
  */
-function ucuenca_read_more() {
+function _themename_read_more() {
 	?>
 	<div class="post-meta">
 		<a href="<?php echo esc_url( get_the_permalink() ); ?> " title="<?php the_title_attribute(); ?>">
-			<?php esc_html_e( 'Leer más ', 'ucuenca' ); ?> <span class="u-screen-reader-text"><?php esc_html_e( 'acerca de ', 'ucuenca' ) . the_title(); ?> </span>
+			<?php esc_html_e( 'Leer más ', '_themename' ); ?> <span class="u-screen-reader-text"><?php esc_html_e( 'acerca de ', '_themename' ) . the_title(); ?> </span>
 		</a>
 	</div>
 	<?php

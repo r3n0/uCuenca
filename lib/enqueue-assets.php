@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Encolar assets
  *
  * Este es un documento para incluir todos los archivos de css y javascript
  *
- * @package ucuenca
+ * @package _themename
  */
 
 /**
@@ -16,7 +16,7 @@
  *
  * @return $version
  */
-function ucuenca_get_assets_version() {
+function _themename_get_assets_version() {
 	$version;
 
 	if ( WP_DEBUG === true ) {
@@ -26,7 +26,7 @@ function ucuenca_get_assets_version() {
 	}
 	return $version;
 }
-$assets_version = ucuenca_get_assets_version();
+$assets_version = _themename_get_assets_version();
 global $assets_version;
 
 /**
@@ -34,28 +34,28 @@ global $assets_version;
  *
  * @return void
  */
-function ucuenca_assets() {
+function _themename_assets() {
 	global $assets_version;
-	wp_register_style( 'ucuenca-stylesheet', get_template_directory_uri() . '/dist/assets/css/bundle.css', array(), $assets_version, 'all' );
-	wp_enqueue_style( 'ucuenca-stylesheet' );
+	wp_register_style( '_themename-stylesheet', get_template_directory_uri() . '/dist/assets/css/bundle.css', array(), $assets_version, 'all' );
+	wp_enqueue_style( '_themename-stylesheet' );
 
-	wp_register_script( 'ucuenca-scripts', get_template_directory_uri() . '/dist/assets/js/bundle.js', array(), $assets_version, true );
-	wp_enqueue_script( 'ucuenca-scripts' );
+	wp_register_script( '_themename-scripts', get_template_directory_uri() . '/dist/assets/js/bundle.js', array(), $assets_version, true );
+	wp_enqueue_script( '_themename-scripts' );
 }
-add_action( 'wp_enqueue_scripts', 'ucuenca_assets' );
+add_action( 'wp_enqueue_scripts', '_themename_assets' );
 
 /**
  * Función de de agregar estilos y scripts del admin
  *
  * @return void
  */
-function ucuenca_admin_assets() {
+function _themename_admin_assets() {
 	global $assets_version;
-	wp_register_style( 'ucuenca-admin-stylesheet', get_template_directory_uri() . '/dist/assets/css/admin.css', array(), $assets_version, 'all' );
-	wp_enqueue_style( 'ucuenca-admin-stylesheet' );
+	wp_register_style( '_themename-admin-stylesheet', get_template_directory_uri() . '/dist/assets/css/admin.css', array(), $assets_version, 'all' );
+	wp_enqueue_style( '_themename-admin-stylesheet' );
 
-	wp_register_script( 'ucuenca-admin-scripts', get_template_directory_uri() . '/dist/assets/js/admin.js', array(), $assets_version, true );
-	wp_enqueue_script( 'ucuenca-admin-scripts' );
+	wp_register_script( '_themename-admin-scripts', get_template_directory_uri() . '/dist/assets/js/admin.js', array(), $assets_version, true );
+	wp_enqueue_script( '_themename-admin-scripts' );
 
 }
-add_action( 'admin_enqueue_scripts', 'ucuenca_admin_assets' );
+add_action( 'admin_enqueue_scripts', '_themename_admin_assets' );
