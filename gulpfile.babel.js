@@ -164,10 +164,13 @@ export const scripts = () => {
 		.pipe(gulp.dest(paths.scripts.dest));
 };
 
-/**
- * esta tarea ejetuca primero la tarea clean y luego ejecuta al mismo tiempo las
- * tareas etyles, copy e images
- */
+export const compress = () => {
+	return gulp
+		.src(paths.package.src)
+		.pipe(zip('UCuenca Theme.zip'))
+		.pipe(gulp.dest(paths.package.dest));
+};
+
 export const dev = gulp.series(
 	clean,
 	gulp.parallel(styles, copy, images, scripts),
@@ -175,20 +178,9 @@ export const dev = gulp.series(
 	watch
 );
 
-/**
- * esta tarea ejetuca primero la tarea clean y luego ejecuta al mismo tiempo
- * las tareas etyles, copy e images
- */
 export const build = gulp.series(
 	clean,
 	gulp.parallel(styles, copy, images, scripts)
 );
-
-export const compress = () => {
-	return gulp
-		.src(paths.package.src)
-		.pipe(zip('UCuenca Theme.zip'))
-		.pipe(gulp.dest(paths.package.dest));
-};
 
 export default dev;
