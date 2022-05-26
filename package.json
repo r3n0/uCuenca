@@ -1,5 +1,5 @@
 {
-	"name": "ucuenca",
+	"name": "UCuenca",
 	"version": "1.0.0",
 	"description": "tema de wordpress para el sitio web de la Universidad de Cuenca",
 	"main": "index.js",
@@ -7,8 +7,9 @@
 		"lib": "lib"
 	},
 	"scripts": {
-		"dev": "gulp",
-		"build": "gulp build --prod"
+		"start": "gulp",
+		"build": "gulp build --prod",
+		"bundle": "gulp bundle --prod"
 	},
 	"author": "r3n0",
 	"license": "ISC",

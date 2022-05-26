@@ -183,4 +183,6 @@ export const build = gulp.series(
 	gulp.parallel(styles, copy, images, scripts)
 );
 
+export const bundle = gulp.series(build, compress);
+
 export default dev;
