@@ -59,3 +59,30 @@ function _themename_admin_assets() {
 
 }
 add_action( 'admin_enqueue_scripts', '_themename_admin_assets' );
+
+require_once 'class-staticblocks.php';
+new StaticBlocks( 'header' );
+new StaticBlocks( 'footer' );
+
+/**
+ * Borrar
+ * new PlaceholderBlock( 'eventsandblogs' );
+ * new PlaceholderBlock( 'singlepost' );
+ * new PlaceholderBlock( 'page' );
+ * new PlaceholderBlock( 'blogindex' );
+ */
+
+/**
+ * Clase para crear bloques dinámicos JSX
+ */
+
+require_once 'class-staticblocks.php';
+
+/**
+ * Borrar
+ * new JSXBlock( 'banner', true, array( 'fallbackimage' => get_theme_file_uri( '/images/library-hero.jpg' ) ) );
+ * new JSXBlock( 'genericheading' );
+ * new JSXBlock( 'genericbutton' );
+ * new JSXBlock( 'slideshow', true );
+ * new JSXBlock( 'slide', true, array( 'themeimagepath' => get_theme_file_uri( '/images/' ) ) );
+ */

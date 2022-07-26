@@ -10,6 +10,9 @@ En este proyecto se utiliza Node.js y Gulp para el ambiente de desarrollo con lo
 # Instala todas las dependencias (solo una vez)
 npm install
 
+# Construye los bloques dinámicos
+npm run blocks
+
 # Observa la carpeta de /src e inicia el servidor local localhost:8080
 npm run start
 
